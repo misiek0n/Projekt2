@@ -24,9 +24,9 @@ class Ui_Projekt2DialogBase(object):
         self.label_wynik.setGeometry(QtCore.QRect(380, 450, 231, 31))
         self.label_wynik.setText("")
         self.label_wynik.setObjectName("label_wynik")
-        self.label_wynik_obl = QtWidgets.QLabel(Projekt2DialogBase)
-        self.label_wynik_obl.setGeometry(QtCore.QRect(20, 30, 73, 16))
-        self.label_wynik_obl.setObjectName("label_wynik_obl")
+        self.label_wybor_obl = QtWidgets.QLabel(Projekt2DialogBase)
+        self.label_wybor_obl.setGeometry(QtCore.QRect(20, 30, 73, 16))
+        self.label_wybor_obl.setObjectName("label_wybor_obl")
         self.comboBox_obliczenie = QtWidgets.QComboBox(Projekt2DialogBase)
         self.comboBox_obliczenie.setGeometry(QtCore.QRect(20, 48, 142, 16))
         self.comboBox_obliczenie.setObjectName("comboBox_obliczenie")
@@ -44,6 +44,12 @@ class Ui_Projekt2DialogBase(object):
         self.label_jedn_pole = QtWidgets.QLabel(Projekt2DialogBase)
         self.label_jedn_pole.setGeometry(QtCore.QRect(30, 391, 131, 16))
         self.label_jedn_pole.setObjectName("label_jedn_pole")
+        self.pushButton_oblicz = QtWidgets.QPushButton(Projekt2DialogBase)
+        self.pushButton_oblicz.setGeometry(QtCore.QRect(490, 130, 75, 23))
+        self.pushButton_oblicz.setObjectName("pushButton_oblicz")
+        self.mMapLayerComboBox_layers = QgsMapLayerComboBox(Projekt2DialogBase)
+        self.mMapLayerComboBox_layers.setGeometry(QtCore.QRect(410, 40, 160, 27))
+        self.mMapLayerComboBox_layers.setObjectName("mMapLayerComboBox_layers")
         self.comboBox_uklad = QtWidgets.QComboBox(Projekt2DialogBase)
         self.comboBox_uklad.setGeometry(QtCore.QRect(20, 94, 142, 16))
         self.comboBox_uklad.setObjectName("comboBox_uklad")
@@ -61,16 +67,18 @@ class Ui_Projekt2DialogBase(object):
     def retranslateUi(self, Projekt2DialogBase):
         _translate = QtCore.QCoreApplication.translate
         Projekt2DialogBase.setWindowTitle(_translate("Projekt2DialogBase", "Projekt2"))
-        self.label_wynik_obl.setText(_translate("Projekt2DialogBase", "Wybór obliczeń"))
+        self.label_wybor_obl.setText(_translate("Projekt2DialogBase", "Wybór obliczeń"))
         self.comboBox_obliczenie.setItemText(0, _translate("Projekt2DialogBase", "Różnica wysokości"))
         self.comboBox_obliczenie.setItemText(1, _translate("Projekt2DialogBase", "Pole powierzchni"))
         self.radioButton_m2.setText(_translate("Projekt2DialogBase", "Metry kwadratowe"))
         self.radioButton_ar.setText(_translate("Projekt2DialogBase", "Ary"))
         self.radioButton_ha.setText(_translate("Projekt2DialogBase", "Hektary"))
         self.label_jedn_pole.setText(_translate("Projekt2DialogBase", "Jednostka pola powierzchni"))
+        self.pushButton_oblicz.setText(_translate("Projekt2DialogBase", "Oblicz"))
         self.comboBox_uklad.setItemText(0, _translate("Projekt2DialogBase", "PL-2000"))
         self.comboBox_uklad.setItemText(1, _translate("Projekt2DialogBase", "PL-1992"))
         self.label_wybor_wsp.setText(_translate("Projekt2DialogBase", "Wybór układu współrzędnych"))
+from qgsmaplayercombobox import QgsMapLayerComboBox
 
 
 if __name__ == "__main__":

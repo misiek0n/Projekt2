@@ -26,6 +26,8 @@ import os
 
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
+from qgis.core import Qgis
+from qgis.utils import iface
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -42,3 +44,23 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
+        self.pushButton_oblicz.clicked.connect(self.calculate_height_diff)
+
+    def calculate_height_diff(self):
+        layer = self.mMapLayerComboBox_layers.currentLayer()
+        selected_points = layer.selectedFeatures()
+        if len(selected_points) != 2:
+            self.label_wynik.setText('Wybrano niewłaściwą liczbę punktów')
+            iface.messageBar().pushMessage("Błąd",
+                                           "Wybrano niewłaściwą liczbę punktów do obliczenia różnicy wysokości",
+                                            level=Qgis.Critical)
+        else:
+            heights = []
+            for point in selected_points:
+                zcoord = point.attribute(layer.fields().indexFromName('zcoord'))
+                heights.append(zcoord)
+            delta_height = heights[1] - heights[0]
+            self.label_wynik.setText(str(delta_height))
+            iface.messageBar().pushMessage("Sukces",
+                                           "Obliczanie powiodło się",
+                                           level=Qgis.Success)
