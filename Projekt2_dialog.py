@@ -44,13 +44,16 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
+        self.comboBox_obliczenie.currentIndexChanged.connect(self.comboBox_obliczenie.currentText)
         self.pushButton_oblicz.clicked.connect(self.calculate_height_diff)
 
     def calculate_height_diff(self):
+        if self.comboBox_obliczenie.currentText() != 'Różnica wysokości':
+            return
         layer = self.mMapLayerComboBox_layers.currentLayer()
         selected_points = layer.selectedFeatures()
         if len(selected_points) != 2:
-            self.label_wynik.setText('Wybrano niewłaściwą liczbę punktów')
+            self.label_wynik.setText("Wybrano niewłaściwą liczbę punktów")
             iface.messageBar().pushMessage("Błąd",
                                            "Wybrano niewłaściwą liczbę punktów do obliczenia różnicy wysokości",
                                             level=Qgis.Critical)
