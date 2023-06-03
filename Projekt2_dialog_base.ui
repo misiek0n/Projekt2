@@ -32,9 +32,9 @@
   <widget class="QLabel" name="label_wynik">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>450</y>
-     <width>231</width>
+     <x>270</x>
+     <y>440</y>
+     <width>341</width>
      <height>31</height>
     </rect>
    </property>
@@ -86,6 +86,9 @@
    </property>
    <property name="text">
     <string>Metry kwadratowe</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QRadioButton" name="radioButton_ar">

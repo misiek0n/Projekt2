@@ -46,6 +46,7 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
         self.setupUi(self)
         self.comboBox_obliczenie.currentIndexChanged.connect(self.comboBox_obliczenie.currentText)
         self.pushButton_oblicz.clicked.connect(self.calculate_height_diff)
+        self.pushButton_oblicz.clicked.connect(self.calculate_field)
 
     def calculate_height_diff(self):
         if self.comboBox_obliczenie.currentText() != 'Różnica wysokości':
@@ -53,17 +54,56 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
         layer = self.mMapLayerComboBox_layers.currentLayer()
         selected_points = layer.selectedFeatures()
         if len(selected_points) != 2:
-            self.label_wynik.setText("Wybrano niewłaściwą liczbę punktów")
+            self.label_wynik.setText("Wybrano niewłaściwą liczbę punktów do obliczenia różnicy wysokości")
             iface.messageBar().pushMessage("Błąd",
                                            "Wybrano niewłaściwą liczbę punktów do obliczenia różnicy wysokości",
-                                            level=Qgis.Critical)
+                                           level=Qgis.Critical,
+                                           duration=5)
         else:
             heights = []
             for point in selected_points:
                 zcoord = point.attribute(layer.fields().indexFromName('zcoord'))
                 heights.append(zcoord)
             delta_height = heights[1] - heights[0]
-            self.label_wynik.setText(str(delta_height))
+            self.label_wynik.setText(f"Wynik to: {delta_height} [m]")
             iface.messageBar().pushMessage("Sukces",
                                            "Obliczanie powiodło się",
-                                           level=Qgis.Success)
+                                           level=Qgis.Success,
+                                           duration=5)
+
+    def calculate_field(self):
+        if self.comboBox_obliczenie.currentText() != 'Pole powierzchni':
+            return
+        layer = self.mMapLayerComboBox_layers.currentLayer()
+        selected_points = layer.selectedFeatures()
+        if len(selected_points) < 3:
+            self.label_wynik.setText("Wybrano zbyt małą liczbę punktów do obliczenia pola powierzchni")
+            iface.messageBar().pushMessage("Błąd",
+                                           "Wybrano zbyt małą liczbę punktów do obliczenia pola powierzchni",
+                                           level=Qgis.Critical,
+                                           duration=5)
+        else:
+            xcoords = []
+            ycoords = []
+            for point in selected_points:
+                point_xy = point.geometry().asPoint()
+                xcoords.append(point_xy.x())
+                ycoords.append(point_xy.y())
+            field = 0
+            for i in range(0, len(xcoords)):
+                if i < len(xcoords) - 2:
+                    part_field = (xcoords[i+1] + xcoords[i]) * (ycoords[i+1] - ycoords[i])
+                    field += part_field
+                else:
+                    part_field = (xcoords[0] + xcoords[i]) * (ycoords[0] - ycoords[i])
+                    field += part_field
+            if self.radioButton_m2.isChecked():
+                self.label_wynik.setText(f"Wynik to: {field} metrów kwadratowych")
+            elif self.radioButton_ar.isChecked():
+                self.label_wynik.setText(f"Wynik to: {field/ 100} arów")
+            elif self.radioButton_ha.isChecked():
+                self.label_wynik.setText(f"Wynik to: {field / 10000} hektarów")
+            iface.messageBar().pushMessage("Sukces",
+                                           "Obliczanie powiodło się",
+                                           level=Qgis.Success,
+                                           duration=5)
