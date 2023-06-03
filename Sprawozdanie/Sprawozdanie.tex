@@ -1,0 +1,124 @@
+\documentclass[a4paper,titleauthor]{mwart} 
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx} %pakiet do wstawiania grafiki
+\usepackage[hyphens]{url} %pakiet do wstawiania linkow
+%\usepackage[hidelinks,breaklinks]{hyperref}
+\usepackage{authblk}%pakiet do tworzenia afiliacji
+\usepackage{tabularx}%pakiet do tabel
+\usepackage[a4paper, left=2cm, right=2cm, top=3cm, bottom=3cm]{geometry}
+\usepackage{listings}
+\usepackage{placeins}%pakiet do kontroli umieszczania obiektow
+\usepackage{hyperref}%pakiet do m.in. kolorowania linkow
+\usepackage{fancyhdr}
+\usepackage{float} 
+\usepackage{hyperref}
+\usepackage[tablegrid,owncaptions]{vhistory}
+\usepackage{subfigure}
+\usepackage{listings}
+\usepackage{wrapfig}
+\usepackage{supertabular}
+\usepackage{}
+\usepackage[polish]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{caption}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+\usepackage{booktabs}
+\renewcommand\figurename{Rys.}%skrocony podpis
+\renewcommand\lstlistingname{Wydruk}
+
+
+%------------------------------------------------------------------------
+% Dane do strony tytułowej
+% Początek dokumentu
+\begin{document}
+	\begin{titlepage}
+		\newgeometry{top = 0.5in,right = 0.5in, left=0.5in, bottom=1in}
+		
+		\begin{center}
+			Politechnika Warszawska \\
+			Wydział Geodezji i Kartografii
+		\end{center}
+		
+		\hrule
+		\vspace*{1cm}
+		\begin{center}
+			\Large{\textbf{Informatyka geodezyjna II}}
+		\end{center}
+		
+		
+		\vspace*{2cm}
+		\begin{center}
+			\large{\textbf{Projekt 2}} 
+		\end{center}
+		\vspace{3cm}
+		\hrule
+		
+		\begin{center}
+			\Large{\textbf{Wtyczka do QGIS - PyQGIS}}
+		\end{center}
+		\hrule
+		
+		\vspace*{2cm}
+		\begin{center}
+			\large{Michał Bielecki \ \ \ \ 319294}\\ 
+			\large{Michał Chwałek \ \ \ \ 319305} 
+		\end{center}
+		
+		\vspace*{3cm}
+		
+		\begin{center}
+			\normalsize{\textbf{Grupa 1}}\\
+			\small{Zajęcia: \\poniedziałek 12:15-14:00} \\
+			\small{Rok akademicki:\\ 2022/23, Semestr 4}
+		\end{center}
+		
+		\vspace*{3cm}
+		\hrule
+		\begin{center}
+			\large{\textbf{Prowądzacy:} \ mgr inż. Andrzej Szeszko}
+		\end{center}
+		\hrule
+		
+		
+	\end{titlepage}
+	
+	%---------------------------------------------------------------
+\newpage
+%Automatycznie generowany spis treści
+\tableofcontents
+\newpage
+%------------------------------------------------
+	
+\section{Cel ćwiczenia} 
+	Celem ćwiczenia jest napisanie wtyczki do programu QGiS umożliwiającej obliczenie różnicy wysokości pomiędzy dwoma punktami wybranymi z warstwy lub obliczenia powierzchni wieloboku utworzonego z conajmniej 3 zaznaczonych punktów. 
+\section{Wykorzystane oprogramowanie oraz moduły}
+Do utworzenia UserInterface naszej wtyczki został wykorzystany program \textbf{QT Designer with QGIS custom widgets}, funkcjonalność wtyczki została napisana z wykorzystaniem języka programowania \textbf{python} w wersji \textbf{3.9.7}. Do opracowania wtyczki użyliśmy modułów:
+\begin{itemize}
+	\item \textbf{qgis.PyQt}
+	\item \textbf{qgis.core}
+	\item \textbf{qgis.utils}
+\end{itemize}
+W celu konwersji pliku interfejsu o rozszerzeniu \textbf{.ui} do pliku o rozszerzeniu \textbf{.py} użyliśmy narzędzia \textbf{pyuic5}. W celu utworzenia oraz testowania wtyczki użyliśmy pluginów do QGiS:
+\begin{itemize}
+	\item \textbf{Plugin Builder}
+	\item \textbf{Plugin Reloader}
+\end{itemize}
+Do testowania poprawności działania wtyczki użyliśmy stworzonej przez nas warstwy testowej, w której atrybuty geometrii (współrzędne X,Y,Z) znajdowały się w tabeli atrybutów.
+\section{Przebieg ćwiczenia}
+Projekt rozpoczeliśmy od utworzenia wtyczki przy pomocy zainstalowanego pluginu do QGiS - \textbf{Plugin Builder}. Dzięki temu plugin utworzył nam pliki potrzebne do rozpoczęcia pracy nad User Interface oraz samym działaniem naszej wtyczki. Następnie w programie \textbf{QT Designer} rozpoczeliśmy prace nad wyglądem interface'u wtyczki. Dodaliśmy tam elementy, takie jak:
+\begin{itemize}
+	\item pushButton
+	\item comboBox
+	\item MapLayerComboBox
+	\item radioButton
+	\item label
+\end{itemize}		
+Po dodaniu elementóW oraz ich wstępnym rozmieszczeniu, przekonwertowaliśmy plik \textbf{.ui} do pliku \textbf{.py}. Następnie rozpoczeliśmy pracę nad funkcjonalnością wtyczki. Pierwszym krokiem było utworzenie modułu, który pozwalał na obliczenie różnicy wysokości między dwoma punktami wybranymi z warstwy. W tym celu wykorzystaliśmy punkty z naszej warstwy testowej. W celu poprawnego działania modułu na samym początku dodaliśmy warunek 
+\begin{lstlisting}
+	if self.comboBox_obliczenie.currentText() != 'Różnica wysokości':
+		return
+\end{lstlisting}
+Dzięki temu wtyczka oblicza wysokość tylko w przypadku, gdy w comboBox'ie przeznaczonym do określenia typu obliczenia została wybrana opcja \textbf{\textit{Różnica wysokości}}.
+\end{document}

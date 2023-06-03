@@ -1,0 +1,4 @@
+\babel@toc {polish}{}\relax 
+\contentsline {section}{\numberline {1\relax .\enspace }Cel ćwiczenia}{2}{section.1}%
+\contentsline {section}{\numberline {2\relax .\enspace }Wykorzystane oprogramowanie oraz moduły}{2}{section.2}%
+\contentsline {section}{\numberline {3\relax .\enspace }Przebieg ćwiczenia}{2}{section.3}%
