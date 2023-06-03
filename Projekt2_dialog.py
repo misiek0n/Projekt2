@@ -26,7 +26,7 @@ import os
 
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
-from qgis.core import Qgis
+from qgis.core import Qgis, QgsVectorLayer, QgsGeometry, QgsFeature, QgsField, QgsProject
 from qgis.utils import iface
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
@@ -44,9 +44,31 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
-        self.comboBox_obliczenie.currentIndexChanged.connect(self.comboBox_obliczenie.currentText)
+        self.pushButton_rysuj.setVisible(False)
+        self.radioButton_m2.setVisible(False)
+        self.radioButton_ar.setVisible(False)
+        self.radioButton_ha.setVisible(False)
+        self.label_jedn_pole.setVisible(False)
+        self.comboBox_obliczenie.currentIndexChanged.connect(self.update_visibility)
         self.pushButton_oblicz.clicked.connect(self.calculate_height_diff)
         self.pushButton_oblicz.clicked.connect(self.calculate_field)
+        self.pushButton_clear.clicked.connect(self.clear_display)
+        self.pushButton_rysuj.clicked.connect(self.create_polygon)
+
+    def update_visibility(self):
+        selected_option = self.comboBox_obliczenie.currentText()
+        if selected_option == 'Pole powierzchni':
+            self.radioButton_m2.setVisible(True)
+            self.radioButton_ar.setVisible(True)
+            self.radioButton_ha.setVisible(True)
+            self.label_jedn_pole.setVisible(True)
+            self.pushButton_rysuj.setVisible(True)
+        else:
+            self.radioButton_m2.setVisible(False)
+            self.radioButton_ar.setVisible(False)
+            self.radioButton_ha.setVisible(False)
+            self.label_jedn_pole.setVisible(False)
+            self.pushButton_rysuj.setVisible(False)
 
     def calculate_height_diff(self):
         if self.comboBox_obliczenie.currentText() != 'Różnica wysokości':
@@ -107,3 +129,29 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
                                            "Obliczanie powiodło się",
                                            level=Qgis.Success,
                                            duration=5)
+
+    def clear_display(self):
+        self.label_wynik.setText('')
+        self.mMapLayerComboBox_layers.currentLayer().removeSelection()
+
+    def create_polygon(self):
+
+        canvas = iface.mapCanvas()
+        layer = self.mMapLayerComboBox_layers.currentLayer()
+        selected_features = layer.selectedFeatures()
+        if len(selected_features) < 3:
+            iface.messageBar().pushMessage("Błąd",
+                                           "Wybierz co najmniej 3 punkty do narysowania poligonu.",
+                                           level=Qgis.Warning)
+            return
+        polygon = QgsGeometry.fromPolygonXY([[point.geometry().asPoint() for point in selected_features]])
+        new_layer = QgsVectorLayer("Polygon?crs=" + layer.crs().toWkt(), "Poligon", "memory")
+        provider = new_layer.dataProvider()
+        new_layer.startEditing()
+        feature = QgsFeature()
+        feature.setGeometry(polygon)
+        provider.addFeatures([feature])
+        new_layer.commitChanges()
+        QgsProject.instance().addMapLayer(new_layer)
+        canvas.refresh()
+# dodac wybor kolejnosci punktów w poligonie
