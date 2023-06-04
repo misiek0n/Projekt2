@@ -49,11 +49,16 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
         self.radioButton_ar.setVisible(False)
         self.radioButton_ha.setVisible(False)
         self.label_jedn_pole.setVisible(False)
+        self.tableWidget_wybrane.setColumnCount(2)
+        self.tableWidget_wybrane.setHorizontalHeaderLabels(['Nr', 'h'])
         self.comboBox_obliczenie.currentIndexChanged.connect(self.update_visibility)
+        self.comboBox_obliczenie.currentIndexChanged.connect(self.update_table)
+        self.mMapLayerComboBox_layers.currentIndexChanged.connect(self.clear_porow_label)
         self.pushButton_oblicz.clicked.connect(self.calculate_height_diff)
         self.pushButton_oblicz.clicked.connect(self.calculate_field)
         self.pushButton_clear.clicked.connect(self.clear_display)
         self.pushButton_rysuj.clicked.connect(self.create_polygon)
+        self.pushButton_porow.clicked.connect(self.compare_area)
 
     def update_visibility(self):
         selected_option = self.comboBox_obliczenie.currentText()
@@ -69,6 +74,15 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
             self.radioButton_ha.setVisible(False)
             self.label_jedn_pole.setVisible(False)
             self.pushButton_rysuj.setVisible(False)
+
+    def update_table(self):
+        selected_option = self.comboBox_obliczenie.currentText()
+        if selected_option == 'Pole powierzchni':
+            self.tableWidget_wybrane.setColumnCount(3)
+            self.tableWidget_wybrane.setHorizontalHeaderLabels(['Nr', 'X', 'Y'])
+        else:
+            self.tableWidget_wybrane.setColumnCount(2)
+            self.tableWidget_wybrane.setHorizontalHeaderLabels(['Nr', 'h'])
 
     def calculate_height_diff(self):
         if self.comboBox_obliczenie.currentText() != 'Różnica wysokości':
@@ -135,7 +149,6 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
         self.mMapLayerComboBox_layers.currentLayer().removeSelection()
 
     def create_polygon(self):
-
         canvas = iface.mapCanvas()
         layer = self.mMapLayerComboBox_layers.currentLayer()
         selected_features = layer.selectedFeatures()
@@ -153,5 +166,24 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
         provider.addFeatures([feature])
         new_layer.commitChanges()
         QgsProject.instance().addMapLayer(new_layer)
+        layer.removeSelection()
         canvas.refresh()
 # dodac wybor kolejnosci punktów w poligonie
+
+    def compare_area(self):
+        layer = self.mMapLayerComboBox_layers.currentLayer()
+        selected_feature = layer.selectedFeatures()
+        layer.startEditing()
+        for i in selected_feature:
+            area = i.geometry().area()
+            layer.changeAttributeValue(i.id(), layer.fields().indexFromName('Powierzchnia'), area)
+        layer.commitChanges()
+        if self.radioButton_m2.isChecked():
+            self.label_porow.setText(f"Wynik to: {area} metrów kwadratowych")
+        elif self.radioButton_ar.isChecked():
+            self.label_porow.setText(f"Wynik to: {area / 100} arów")
+        elif self.radioButton_ha.isChecked():
+            self.label_porow.setText(f"Wynik to: {area / 10000} hektarów")
+
+    def clear_porow_label(self):
+        self.label_porow.setText('')

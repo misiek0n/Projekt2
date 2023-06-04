@@ -73,6 +73,18 @@ class Ui_Projekt2DialogBase(object):
         self.pushButton_rysuj = QtWidgets.QPushButton(Projekt2DialogBase)
         self.pushButton_rysuj.setGeometry(QtCore.QRect(400, 100, 161, 31))
         self.pushButton_rysuj.setObjectName("pushButton_rysuj")
+        self.tableWidget_wybrane = QtWidgets.QTableWidget(Projekt2DialogBase)
+        self.tableWidget_wybrane.setGeometry(QtCore.QRect(350, 180, 256, 192))
+        self.tableWidget_wybrane.setObjectName("tableWidget_wybrane")
+        self.tableWidget_wybrane.setColumnCount(0)
+        self.tableWidget_wybrane.setRowCount(0)
+        self.label_porow = QtWidgets.QLabel(Projekt2DialogBase)
+        self.label_porow.setGeometry(QtCore.QRect(270, 400, 341, 31))
+        self.label_porow.setText("")
+        self.label_porow.setObjectName("label_porow")
+        self.pushButton_porow = QtWidgets.QPushButton(Projekt2DialogBase)
+        self.pushButton_porow.setGeometry(QtCore.QRect(400, 140, 161, 31))
+        self.pushButton_porow.setObjectName("pushButton_porow")
 
         self.retranslateUi(Projekt2DialogBase)
         self.button_box.accepted.connect(Projekt2DialogBase.accept) # type: ignore
@@ -95,6 +107,7 @@ class Ui_Projekt2DialogBase(object):
         self.label_wybor_wsp.setText(_translate("Projekt2DialogBase", "Wybór układu współrzędnych"))
         self.pushButton_clear.setText(_translate("Projekt2DialogBase", "Wyczyść"))
         self.pushButton_rysuj.setText(_translate("Projekt2DialogBase", "Rysuj poligon"))
+        self.pushButton_porow.setText(_translate("Projekt2DialogBase", "Porównaj poligon"))
 from qgsmaplayercombobox import QgsMapLayerComboBox
 
 
