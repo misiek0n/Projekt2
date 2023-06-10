@@ -77,74 +77,79 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
 
     def update_table(self):
         selected_option = self.comboBox_obliczenie.currentText()
+        self.mMapLayerComboBox_layers.currentLayer().selectionChanged.connect(self.update_table)
+        self.tableWidget_wybrane.clearContents()
+        self.tableWidget_wybrane.setRowCount(0)
+        
         if selected_option == 'Pole powierzchni':
             self.tableWidget_wybrane.setColumnCount(3)
             self.tableWidget_wybrane.setHorizontalHeaderLabels(['Nr', 'X', 'Y'])
-            
-            if self.comboBox_obliczenie.currentText() != 'Pole powierzchni':
-                return
-            layer = self.mMapLayerComboBox_layers.currentLayer()
-            selected_points = layer.selectedFeatures()
-  
-            ID = []
-            for point in selected_points:
-                idnumber = point.attribute(layer.fields().indexFromName('ID'))
-                ID.append(idnumber)          
-  
-            Xcoord = []
-            for point in selected_points:
-                xcoord = point.attribute(layer.fields().indexFromName('xcoord'))
-                Xcoord.append(xcoord)
-                
-            Ycoord = []
-            for point in selected_points:
-                ycoord = point.attribute(layer.fields().indexFromName('ycoord'))
-                Ycoord.append(ycoord)
-                
-
-
-            self.tableWidget_wybrane.setRowCount(len(ID))
-            for row, xcoord in enumerate(Xcoord):
-                    item = QtWidgets.QTableWidgetItem(str(xcoord))
-                    self.tableWidget_wybrane.setItem(row, 1, item)
-                    
-            for row, idn in enumerate(ID):
-                    item = QtWidgets.QTableWidgetItem(str(idn))
-                    self.tableWidget_wybrane.setItem(row, 0, item)
-                 
-            for row, ycoord in enumerate(Ycoord):
-                    item = QtWidgets.QTableWidgetItem(str(ycoord))
-                    self.tableWidget_wybrane.setItem(row, 2, item)
-    
-            
+            self.update_table_for_surface_area()
         else:
             self.tableWidget_wybrane.setColumnCount(2)
             self.tableWidget_wybrane.setHorizontalHeaderLabels(['Nr', 'h'])
-            
-            if self.comboBox_obliczenie.currentText() != 'Różnica wysokości':
-                return
-            layer = self.mMapLayerComboBox_layers.currentLayer()
-            selected_points = layer.selectedFeatures()
-            
-            heights = []
-            for point in selected_points:
-                zcoord = point.attribute(layer.fields().indexFromName('zcoord'))
-                heights.append(zcoord)
-                
-            ID = []
-            for point in selected_points:
-                idnumber = point.attribute(layer.fields().indexFromName('ID'))
-                ID.append(idnumber)
+            self.update_table_for_height_difference()
 
-            self.tableWidget_wybrane.setRowCount(len(heights))
-            for row, height in enumerate(heights):
-                    item = QtWidgets.QTableWidgetItem(str(height))
-                    self.tableWidget_wybrane.setItem(row, 1, item)
-                    
-            for row, idn in enumerate(ID):
-                    item = QtWidgets.QTableWidgetItem(str(idn))
-                    self.tableWidget_wybrane.setItem(row, 0, item)
-
+    def update_table_for_surface_area(self):
+        if self.comboBox_obliczenie.currentText() != 'Pole powierzchni':
+            return
+        layer = self.mMapLayerComboBox_layers.currentLayer()
+        selected_points = layer.selectedFeatures()
+    
+        ID = []
+        Xcoord = []
+        Ycoord = []
+        
+        for point in selected_points:
+            idnumber = point.attribute(layer.fields().indexFromName('ID'))
+            ID.append(idnumber)
+            
+            xcoord = point.attribute(layer.fields().indexFromName('xcoord'))
+            Xcoord.append(xcoord)
+            
+            ycoord = point.attribute(layer.fields().indexFromName('ycoord'))
+            Ycoord.append(ycoord)
+            
+        self.tableWidget_wybrane.setRowCount(len(ID))
+        
+        for row, xcoord in enumerate(Xcoord):
+            item = QtWidgets.QTableWidgetItem(str(xcoord))
+            self.tableWidget_wybrane.setItem(row, 1, item)
+            
+        for row, idn in enumerate(ID):
+            item = QtWidgets.QTableWidgetItem(str(idn))
+            self.tableWidget_wybrane.setItem(row, 0, item)
+            
+        for row, ycoord in enumerate(Ycoord):
+            item = QtWidgets.QTableWidgetItem(str(ycoord))
+            self.tableWidget_wybrane.setItem(row, 2, item)
+    
+    def update_table_for_height_difference(self):
+        if self.comboBox_obliczenie.currentText() != 'Różnica wysokości':
+            return
+        layer = self.mMapLayerComboBox_layers.currentLayer()
+        selected_points = layer.selectedFeatures()
+        
+        heights = []
+        ID = []
+        
+        for point in selected_points:
+            zcoord = point.attribute(layer.fields().indexFromName('zcoord'))
+            heights.append(zcoord)
+            
+            idnumber = point.attribute(layer.fields().indexFromName('ID'))
+            ID.append(idnumber)
+    
+        self.tableWidget_wybrane.setRowCount(len(heights))
+        
+        for row, height in enumerate(heights):
+            item = QtWidgets.QTableWidgetItem(str(height))
+            self.tableWidget_wybrane.setItem(row, 1, item)
+            
+        for row, idn in enumerate(ID):
+            item = QtWidgets.QTableWidgetItem(str(idn))
+            self.tableWidget_wybrane.setItem(row, 0, item)
+#UWAGA
 
     def calculate_height_diff(self):
         if self.comboBox_obliczenie.currentText() != 'Różnica wysokości':
