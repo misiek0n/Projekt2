@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>634</width>
-    <height>538</height>
+    <width>656</width>
+    <height>563</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,10 +32,10 @@
   <widget class="QLabel" name="label_wynik">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>30</x>
      <y>440</y>
-     <width>341</width>
-     <height>31</height>
+     <width>521</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -81,8 +81,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>410</y>
+     <x>20</x>
+     <y>300</y>
      <width>113</width>
      <height>17</height>
     </rect>
@@ -106,8 +106,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>433</y>
+     <x>20</x>
+     <y>330</y>
      <width>40</width>
      <height>17</height>
     </rect>
@@ -125,8 +125,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>456</y>
+     <x>20</x>
+     <y>360</y>
      <width>61</width>
      <height>17</height>
     </rect>
@@ -141,8 +141,8 @@
   <widget class="QLabel" name="label_jedn_pole">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>391</y>
+     <x>20</x>
+     <y>270</y>
      <width>131</width>
      <height>16</height>
     </rect>
@@ -249,7 +249,7 @@
   <widget class="QLabel" name="label_porow">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>230</x>
      <y>400</y>
      <width>341</width>
      <height>31</height>
