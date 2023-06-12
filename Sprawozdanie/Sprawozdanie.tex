@@ -116,9 +116,29 @@ Projekt rozpoczeliśmy od utworzenia wtyczki przy pomocy zainstalowanego pluginu
 	\item label
 \end{itemize}		
 Po dodaniu elementóW oraz ich wstępnym rozmieszczeniu, przekonwertowaliśmy plik \textbf{.ui} do pliku \textbf{.py}. Następnie rozpoczeliśmy pracę nad funkcjonalnością wtyczki. Pierwszym krokiem było utworzenie modułu, który pozwalał na obliczenie różnicy wysokości między dwoma punktami wybranymi z warstwy. W tym celu wykorzystaliśmy punkty z naszej warstwy testowej. W celu poprawnego działania modułu na samym początku dodaliśmy warunek 
-\begin{lstlisting}
+\begin{verbatim}
 	if self.comboBox_obliczenie.currentText() != 'Różnica wysokości':
 		return
-\end{lstlisting}
+\end{verbatim}
 Dzięki temu wtyczka oblicza wysokość tylko w przypadku, gdy w comboBox'ie przeznaczonym do określenia typu obliczenia została wybrana opcja \textbf{\textit{Różnica wysokości}}.
+Analogiczny warunek powstał przy opcji wybierania obliczania pól powierzchni
+
+W następnym kroku przypisaliśmy wybraną przez użytkownika warstwę do zmiennej \textbf{layer} i za pomocą metody \textbf{selectedFeatures()} pobieramy zaznaczone przez użytkownika punkty
+
+\begin{verbatim}
+	layer = self.mMapLayerComboBox_layers.currentLayer()
+	selected_points = layer.selectedFeatures()
+\end{verbatim}
+Następnie za pomocą iteracji "wydobywamy" wartości z tabeli atrybutów z konkretnych punktów, w tym celu wykorzystujemy warunek zgodności nazwy.
+
+\begin{verbatim}
+	ID = []
+	
+	for point in selected_points:
+	idnumber = point['ID']
+	ID.append(idnumber)
+\end{verbatim}
+
+
 \end{document}
+
