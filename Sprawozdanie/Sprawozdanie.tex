@@ -139,8 +139,60 @@ Następnie za pomocą iteracji "wydobywamy" wartości z tabeli atrybutów z konk
 	ID.append(idnumber)
 \end{verbatim}
 
-Z wydobytych wartości punktów 
+Z wydobytych wartości punktów napisaliśmy kod w celu obliczenia różnicy wysokości i powierzchni pola:\\ \\
+$\bullet$ W celu obliczenia powierzchni pola algorytm najpierw sortuje punkty po współrzędnych w kierunku przeciwnym do ruchu wskazówek zegara, a następnie przy pomocy wzorów Gaussa liczy pole powierzchni\\
+$\bullet$ W celu obliczenia różnic wysokości wykorzystaliśmy wzór: $h_{2} - h_{1}$
 
+Zaznaczone przez użytkonika punkty wyświetlają się w czasie rzeczywistym w tabeli. W tym celu stworzyliśmy 3 metody: 
+\begin{verbatim}
+	update_table, update_table_for_surface_area, update_table_for_height_difference
+\end{verbatim}
+Metoda \textbf{UpdateTable} definiuje ogólny widok tabeli w zależności od wybranej opcji obiczeń, następnie odwołuje się do kolejnej metody w celu pobrania konkretnych wartości punktów.
+
+\begin{verbatim}
+	def update_table(self):
+	selected_option = self.comboBox_obliczenie.currentText()
+	self.tableWidget_wybrane.clearContents()
+	self.tableWidget_wybrane.setRowCount(0)
+	
+	if selected_option == 'Pole powierzchni':
+	self.tableWidget_wybrane.setColumnCount(3)
+	self.tableWidget_wybrane.setHorizontalHeaderLabels(['Nr', 'X', 'Y'])
+	self.update_table_for_surface_area()
+	else:
+	self.tableWidget_wybrane.setColumnCount(2)
+	self.tableWidget_wybrane.setHorizontalHeaderLabels(['Nr', 'h'])
+	self.update_table_for_height_difference()
+\end{verbatim}
+
+Metody \textbf{UpdateTableForSurfaceArea} oraz\textbf{UpdateTableForHeigtDifferences} iterują po posczególnych elemntach i wybierają pożądane wartości, a następnie przypisują je do odpowiednich kolumn w tabeli:
+
+\begin{verbatim}
+	self.tableWidget_wybrane.setRowCount(len(ID))
+	
+	for row, data in enumerate(zip(ID, Xcoord, Ycoord)):
+	for col, value in enumerate(data):
+	item = QtWidgets.QTableWidgetItem(str(value))
+	self.tableWidget_wybrane.setItem(row, col, item)
+\end{verbatim}
+Metoda \textbf{CompareArea} iteruje po tabeli atrybutów w celu wydobycia pola powierzchni z wbudowanych w QGIS'ie narzędzi geometrii. Użytkownik następnie ma możliwość wybór jednostki wyświetlanej wartości:
+
+\begin{verbatim}
+	 def compare_area(self):
+	layer = self.mMapLayerComboBox_layers.currentLayer()
+	selected_feature = layer.selectedFeatures()
+	layer.startEditing()
+	for i in selected_feature:
+	area = i.geometry().area()
+	layer.changeAttributeValue(i.id(), layer.fields().indexFromName('Powierzchnia'), area)
+	layer.commitChanges()
+	if self.radioButton_m2.isChecked():
+	self.label_porow.setText(f"Wynik to: {area} metrów kwadratowych")
+	elif self.radioButton_ar.isChecked():
+	self.label_porow.setText(f"Wynik to: {area / 100} arów")
+	elif self.radioButton_ha.isChecked():
+	self.label_porow.setText(f"Wynik to: {area / 10000} hektarów")
+\end{verbatim}
 
 \end{document}
 
