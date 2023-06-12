@@ -194,5 +194,43 @@ Metoda \textbf{CompareArea} iteruje po tabeli atrybutów w celu wydobycia pola p
 	self.label_porow.setText(f"Wynik to: {area / 10000} hektarów")
 \end{verbatim}
 
+Metoda \textbf{create\_polygon} sortuje wybrane przez użytkownika punkty zgodnie z ruchem wskazówek zegara, następnie pobiera parametry warstwy na której znajdują się punkty, a następnie tworzy nową warstwę na podstawie wcześniej pobranych parametrów, na której znajduje się poligon utworzony z wcześniej posortowanych punktów.
+
+\begin{verbatim}
+    def create_polygon(self):
+		canvas = iface.mapCanvas()
+		layer = self.mMapLayerComboBox_layers.currentLayer()
+		crs = layer.crs()
+		crs_authid = crs.authid()
+		selected_features = layer.selectedFeatures()
+		if len(selected_features) < 3:
+		iface.messageBar().pushMessage("Błąd",
+		"Wybierz co najmniej 3 punkty do narysowania poligonu.",
+		level=Qgis.Warning)
+		return
+		points = [feature.geometry().asPoint() for feature in selected_features]
+		centroid = QgsPoint(sum(point.x() for point in points) / len(points),
+		sum(point.y() for point in points) / len(points))
+		points.sort(key=lambda point: -math.atan2(point.y() - centroid.y(), point.x() - centroid.x()))
+		new_layer = QgsVectorLayer("Polygon?crs=" + crs_authid, "Poligon", "memory")
+		provider = new_layer.dataProvider()
+		new_layer.startEditing()
+		poly_feature = QgsFeature()
+		polygon = QgsGeometry.fromPolygonXY([points])
+		poly_feature.setGeometry(polygon)
+		provider.addFeature(poly_feature)
+		new_layer.commitChanges()
+		QgsProject.instance().addMapLayer(new_layer)
+canvas.refresh()
+\end{verbatim}
+
+\section{Wnioski}
+Dzięki pracy przy projekcie mieliśmy możliwość rozwinąć swoje umiejętności w pracy z GitHub'em, QGiS'em, QT Designerem oraz pythonem. Niestety, przez niewystarczającą ilość czasu oraz nieubłagalnie zbliżającą się sesję nie daliśmy rady wykonać wszystkich dodatkowych opcji. Poniżej znajduje się link do zdalnego repozytorium.
+\vspace{4cm}
+\begin{center}
+	\href{https://github.com/misiek0n/Projekt2}{github.com/misiek0n/Projekt2}
+\end{center}
+
+
 \end{document}
 
