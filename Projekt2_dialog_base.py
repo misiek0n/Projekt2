@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Projekt2_dialog_base.ui'
+# Form implementation generated from reading ui file '.\Projekt2_dialog_base.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -85,6 +85,12 @@ class Ui_Projekt2DialogBase(object):
         self.pushButton_porow = QtWidgets.QPushButton(Projekt2DialogBase)
         self.pushButton_porow.setGeometry(QtCore.QRect(400, 140, 161, 31))
         self.pushButton_porow.setObjectName("pushButton_porow")
+        self.pushButton_explore = QtWidgets.QPushButton(Projekt2DialogBase)
+        self.pushButton_explore.setGeometry(QtCore.QRect(190, 190, 31, 31))
+        self.pushButton_explore.setObjectName("pushButton_explore")
+        self.lineEdit_sciezka = QtWidgets.QLineEdit(Projekt2DialogBase)
+        self.lineEdit_sciezka.setGeometry(QtCore.QRect(30, 190, 161, 31))
+        self.lineEdit_sciezka.setObjectName("lineEdit_sciezka")
 
         self.retranslateUi(Projekt2DialogBase)
         self.button_box.accepted.connect(Projekt2DialogBase.accept) # type: ignore
@@ -108,6 +114,7 @@ class Ui_Projekt2DialogBase(object):
         self.pushButton_clear.setText(_translate("Projekt2DialogBase", "Wyczyść"))
         self.pushButton_rysuj.setText(_translate("Projekt2DialogBase", "Rysuj poligon"))
         self.pushButton_porow.setText(_translate("Projekt2DialogBase", "Porównaj poligon"))
+        self.pushButton_explore.setText(_translate("Projekt2DialogBase", "..."))
 from qgsmaplayercombobox import QgsMapLayerComboBox
 
 
