@@ -211,9 +211,6 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
                                        "Obliczanie powiodło się",
                                        level=Qgis.Success,
                                        duration=5)
-    def clear_display(self):
-        self.label_wynik.setText('')
-        self.mMapLayerComboBox_layers.currentLayer().removeSelection()
 
     def create_polygon(self):
         canvas = iface.mapCanvas()
@@ -262,3 +259,8 @@ class Projekt2Dialog(QtWidgets.QDialog, FORM_CLASS):
     def explore(self):
         file = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file', "C:\\")
         self.lineEdit_sciezka.setText(file[0])
+
+    def clear_display(self):
+        self.label_wynik.setText('')
+        self.clear_porow_label()
+        self.mMapLayerComboBox_layers.currentLayer().removeSelection()
