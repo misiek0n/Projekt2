@@ -58,12 +58,19 @@ Po instalacji wtyczki i załadowania odpowiedniego(według wytycznych) pliku nal
  - Następnie należy kliknąć przycisk "Oblicz". Zostanie policzone pole powierzchni pomiędzy punktami, zgodnie ze wzorem: P = 1/2 * suma od pierwszego do ostatniego elementu z Xi(Yi+1 - Yi-1)
  - Wynik zostanie wyświetlony w jednostce wybranej przez użytkownika, domyślnie w metrach kwadratowych. Możliwe jest wyświetlenie wyniku w ARACH i HEKTARACH poprzez wybranie odpowiedniej opcji z lewej strony okna, nazwaną "Jednostki pola powierzchni"
  - Użytkownik ma również możliwość "narysować" poligon, z zaznaczonych przez siebie punktów wybierając opcję "Rysuj poligon"
+ - Użytkownik ma możliwość porównania obliczonego pola powierzchni z polem obliczonym jako atrybut w QGiS. W tym celu, po narysowaniu poligonu użytkownik musi zaznaczyć narysowany poligon, następnie w oknie wtyczki zmienić warstwę na tą, na której znajduje się poligon, a następnie wcisnąć przycisk "Porównaj poligon". Wynik zostanie wyświetlony w jednostce, która została wybrana przez użytkownika.
  - Jeśli użytkownik chce wykonać kolejne obliczenia, należy powtórzyć powyższe czynności
  - Jeśli użytkowni chce zakończyć korzystanie z wtyczki, należy kliknąć przycisk "Okej","Anuluj" albo ikonkę "x" w prawym górnym rogu
  - W przypadku wybrania nieodpowiedniej liczby punktów (tj. mniejszej niż 3) program zwróci odpowiedni komunikat, aby dalej korzystać z programu należy postępować zgodnie z powyższą instrukcją
 
+- Użytkownik może wyczyścić wybór zaznaczonych punktów oraz wyniki wciskając przycisk "wyczyść".
+
 -Znane błędy:
  - Opcja "Rysuj poligon" nie zawsze działa poprawnie, użytkownik nie ma możliwości edycji "kształtu" poligonu.
+ - Opcja wczytywania warstwy podając ścieżkę do pliku nie ma pełnej funkcjonalności. Użytkownik może wybrać lokalizacje pliku, wtyczka pobierze wskazaną lokalizację ale nie ma możliwości odczytu wskazanego pliku.
+ - Wtyczka czasami nie odwieża tabeli gdy użytkownik zmienia zaznaczane punkty. W takim przypadku wystarczy odświeżyć wtyczke przy pomocy pluginu "Plugin Reloader".
+ - W przypadku gdy użytkownik będzie chciał wykonać porównanie pól i nie zmieni warstwy na tą na której znajduję się poligon, wartość która zostanie wyświetlona to 0.0
+ 
 
 
 
