@@ -5,7 +5,7 @@ W celu sprawdzenia funkcjonalności wtyczki zaleca się ze skorzystania z dedyko
 
 1. Instalacja wtyczki:
 
-Pobieramy repozytorium, cały pobrany folder "Projekt2" umieścić w folderze "plugins" odpowiadającego za przechowywanie wtyczek do programu QGIS. Przykładowa lokalizacja:
+Pobieramy CAŁE repozytorium, pobierze się ono w formacie .zip "Projekt2-main.zip". Następnie wypakowujemy folder. Cały wypakowany folder "Projekt2-main" umieścić w folderze "plugins" odpowiadającego za przechowywanie wtyczek do programu QGIS. Przykładowa lokalizacja:
 "C:\Users\micha\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins"
 Gdzie, "C:\Users\(nazwa użytkownika)\..."
 Następnie przy pomocy wbudowanej funkcji "Zarządzanie wtyczkami" wyszukać, w katalogu wszystkie wtyczki: "Projekt2". Zaznaczyć odpowiedniego check-boxa i upewnić się, że wtyczka jest zainstalowana.
