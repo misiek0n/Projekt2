@@ -5,7 +5,7 @@ W celu sprawdzenia funkcjonalności wtyczki zaleca się ze skorzystania z dedyko
 
 1. Instalacja wtyczki:
 
-Cały folder "Projekt2" umieścić w folderze "plugins" odpowiadającego za przechowywanie wtyczek do programu QGIS. Przykładowa lokalizacja:
+Pobieramy repozytorium, cały pobrany folder "Projekt2" umieścić w folderze "plugins" odpowiadającego za przechowywanie wtyczek do programu QGIS. Przykładowa lokalizacja:
 "C:\Users\micha\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins"
 Gdzie, "C:\Users\(nazwa użytkownika)\..."
 Następnie przy pomocy wbudowanej funkcji "Zarządzanie wtyczkami" wyszukać, w katalogu wszystkie wtyczki: "Projekt2". Zaznaczyć odpowiedniego check-boxa i upewnić się, że wtyczka jest zainstalowana.
@@ -35,9 +35,9 @@ Aby wtyczka działała poprawnie należy (wytyczne):
  
 -Upewnić się, że oznaczenia zdefiniowane w programie i oznaczenia w opracowywanym pliku QGIS, są identyczne. Program został napisany dla warstwy z następującym oznaczeniem atrybutów:
  -Numer punktu, wyrażony w wartości liczbowej całkowitej, zdefiniowany jako atrybut o nazwie 'ID'
- -Współrzędna prostokątna "X" punktów wyrażona w metrach, zdefiniowana jako atrybut o nazwie 'xcoord'
- -Współrzędna prostokątna "Y" punktów wyrażona w metrach, zdefiniowana jako atrybut o nazwie 'ycoord'
- -Współrzędna prostokątna "Z" punktów wyrażona w metrach, zdefiniowana jako atrybut o nazwie 'zcoord'
+ -Współrzędna prostokątna "X" punktów wyrażona w metrach, pobierana jako atrybut geometrii punktu
+ -Współrzędna prostokątna "Y" punktów wyrażona w metrach, pobierana jako atrybut geometrii punktu
+ -Wysokość punktu "Z" punktów wyrażona w metrach, zdefiniowana jako atrybut o nazwie 'zcoord'
 
 -Upewnić się, że wszystkie punkty, z których użytkownik chce skorzystać, znajdują się na JEDNEJ wartswie.
 
